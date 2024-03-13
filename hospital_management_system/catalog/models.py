@@ -1,38 +1,37 @@
 import uuid
 from django.db import models
 
-
-
 class Hospital(models.Model):
-    register_id = models.UUIDField(primary_key=True,default=uuid.uuid4,help_text='Registration id for hospitals')
-    hosp_name = models.CharField(max_length=200, unique = True) 
-    
-    staff_number =  models.IntegerField()
-    address = models.CharField(max_length=200, unique = True)
-    numb_beds = models.IntegerField()
+    id = models.UUIDField(primary_key = True,default=uuid.uuid4,unique=True,editable=False)
+    name = models.CharField(max_length=200,default='')
+    address = models.TextField(max_length=1000,default='')
 
     def __str__(self):
-        """String for representing the Model object."""
-        return self.hosp_name
+        return str(self.name)
     
-
 class Patient(models.Model):
-    patient_id = models.UUIDField(primary_key=True,default=uuid.uuid4,help_text='patients id')
-    patient_name =  models.CharField(max_length=200,unique=True)
-    
-    hospital_name = models.ForeignKey('Hospital', on_delete = models.RESTRICT)
-    contact_number = models.CharField(max_length=200)
-    doctor_name = models.CharField(max_length=200)
-    
-    dept_name = models.CharField(max_length=200,default="Surgery Department")
-    patient_disease = models.CharField(max_length=200)
-    primary_check = models.DateTimeField()
-    medicine = models.CharField(max_length=200,null=True)
-    consultation = models.DateTimeField()
-    admitted = models.DateTimeField(null=True,blank=True)
-    referred = models.BooleanField()
-    discharged = models.DateTimeField(null=True,blank=True)
+    id = models.UUIDField(primary_key = True,default=uuid.uuid4,unique=True,editable=False)
+    patient_name = models.CharField(max_length=200,default='')
+    hospital =models.ForeignKey(Hospital, on_delete=models.PROTECT, related_name="patients")
+    doctor_name = models.CharField(max_length=200,default='')
+    department =  models.CharField(max_length=200,default='')
+    disease = models.CharField(max_length=200,default='')
 
     def __str__(self):
-        return self.patient_name
+        return str(self.id)
+    
+class PatientStatus(models.Model):
+    patient = models.ForeignKey(Patient, on_delete=models.PROTECT, related_name="patientstatus")
+    primary_checkup =    models.TextField(max_length=1000,default='')
+    consultation = models.TextField(max_length=1000,default='')
+    admitted = models.BooleanField(default=False)
+    discharged = models.BooleanField(default=False)
+    referred = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.patient)
+
+
+
+
 
