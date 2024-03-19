@@ -1,41 +1,51 @@
 from rest_framework import serializers
-from .models import Patient,Hospital,PatientStatus
+from .models import Patient,Hospital,PatientVisit
 
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        fields = ('id',
+        fields = (
                   'name',
-                  'address'
+                  'address',
+                  'Staffs_num',
+                  'num_of_beds'
                   )
-        
+
+class HospitalNameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Hospital
+        fields = ('name',
+                  'address')
+
 class PatientSerializer(serializers.ModelSerializer):
     #id = serializers.UUIDField()
-    hospital_details = serializers.PrimaryKeyRelatedField(source="hospital",many=False,queryset=Hospital.objects.all())
+    #hospital_details = serializers.PrimaryKeyRelatedField(source="hospital",many=False,queryset=Hospital.objects.all())
     #hospital_name = HospitalSerializer(source='hospital',read_only=True)
 
     class Meta:
         model = Patient
-        fields =('id',
+        fields =(
                  'patient_name',
-                 'hospital',
-                 'hospital_details',
-                 'doctor_name',
+                 'contact_number',
+                 'patient_address',
                  'department',
                  'disease')    
 
 
-class PatientStatusSerializer(serializers.HyperlinkedModelSerializer):
+class PatientVisitSerializer(serializers.ModelSerializer):
     #patient = PatientSerializer()
-    patient_details = serializers.PrimaryKeyRelatedField(source="patient",many=False,queryset=Patient.objects.all())
+    patient= serializers.ReadOnlyField(source='patient.patient_name')
+    hospital = HospitalNameSerializer()
+    
+
 
     class Meta:
-        model = PatientStatus
+        model = PatientVisit
         depth = 1
         fields=('patient',
-                'patient_details',
-                'primary_checkup',
-                'consultation',
-                'admitted',
-                'discharged',
-                'referred')          
+                'hospital',
+                'hospital_visits',
+                'doctor_name',
+                'patient_status',
+                'medicine'
+                )          

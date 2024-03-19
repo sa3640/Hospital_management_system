@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework.decorators import api_view, action
-from .models import Patient,Hospital,PatientStatus
-from .serializers import PatientSerializer,HospitalSerializer,PatientStatusSerializer
+from .models import Patient,Hospital,PatientVisit
+from .serializers import PatientSerializer,HospitalSerializer,PatientVisitSerializer
 
 
 class HospitalViewSet(viewsets.ModelViewSet):
@@ -24,9 +24,19 @@ class PatientViewSet(viewsets.ModelViewSet):
     @action(detail=True,methods=['post'])
     def perform_create(self, serializer):
         return super().perform_create(serializer)  
+    
+
+class PatientViewSet(viewsets.ModelViewSet):
+    queryset = Patient.objects.filter()
+    serializer_class = PatientSerializer
+
+    @action(detail=True,methods=['post'])
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)  
 
 
-class PatientStatusViewSet(viewsets.ModelViewSet):
-    queryset = PatientStatus.objects.all()
-    serializer_class = PatientStatusSerializer
+class PatientVisitViewSet(viewsets.ModelViewSet):
+    queryset = PatientVisit.objects.all()
+    serializer_class = PatientVisitSerializer
+
 
