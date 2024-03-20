@@ -1,10 +1,10 @@
 from rest_framework import serializers
-from .models import Patient,Hospital,PatientVisit
+from .models import Patient,Hospital,PatientVisit,User
 from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta:
+    class Meta(object):
         model = User
         fields = ['username' , 'password']
 

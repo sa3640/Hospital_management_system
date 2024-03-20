@@ -12,6 +12,23 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.models import User
+
+
+
+class RegisterUser(APIView):
+    def post(request,self):
+       serializer = UserSerializer(data = request.kwargs)
+       
+       if not serializer.is_valid():
+           return Response({'status': 403, 'errors' : serializer.errors, 'message' : 'something is not working'})
+       
+       serializer.save()
+
+       user = User.objects.get(username = request.data['username'])
+       token_obj , _ = Token.objects.get_or_create(user=user)
+       return Response ({'status': 200, 'payload' : serializer.data, 'token' : str(token_obj) , 'message' : 'Your data is saved'})
+
 
 
 class HospitalViewSet(viewsets.ModelViewSet):
@@ -46,15 +63,3 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
     serializer_class = PatientVisitSerializer
 
 
-class RegisterUser(APIView):
-    def post(request,self):
-       serializer = UserSerializer(data = request.data)
-       
-       if not serializer.is_valid():
-           return Response({'status': 403, 'errors' : serializer.errors, 'message' : 'something is not working'})
-       
-       serializer.save()
-
-       user = User.objects.get(username = serializer.data['useername'])
-       token_obj , _ = Token.objects.get_or_create(user=user)
-       return Response ({'status': 200, 'payload' : serializer.data, 'token' : str(token_obj) , 'message' : 'Your data is saved'})
