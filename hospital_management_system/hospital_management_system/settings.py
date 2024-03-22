@@ -79,8 +79,9 @@ WSGI_APPLICATION = 'hospital_management_system.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # Add this line
-    ],
+        'rest_framework.authentication.TokenAuthentication',
+          'rest_framework.authentication.SessionAuthentication',  # Add this line
+    ]
 }
 
 

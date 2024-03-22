@@ -1,18 +1,18 @@
 from rest_framework import serializers
-from .models import Patient,Hospital,PatientVisit,User
+from .models import Patient,Hospital,PatientVisit
 from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    class Meta(object):
-        model = User
-        fields = ['username' , 'password']
+     class Meta(object):
+         model = User
+         fields = [ 'id' ,'username' , 'password' , 'email']
 
-    def create(self, validated_data):
-        user = User.objects.create(username = validated_data['username']) 
-        user.set_password(validated_data['password']) 
-        user.save()
-        return user  
+#     def create(self, validated_data):
+#         user = User.objects.create(username = validated_data['username']) 
+#         user.set_password(validated_data['password']) 
+#         user.save()
+#         return user  
 
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
