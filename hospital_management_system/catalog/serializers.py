@@ -8,11 +8,6 @@ class UserSerializer(serializers.ModelSerializer):
          model = User
          fields = [ 'id' ,'username' , 'password' , 'email']
 
-#     def create(self, validated_data):
-#         user = User.objects.create(username = validated_data['username']) 
-#         user.set_password(validated_data['password']) 
-#         user.save()
-#         return user  
 
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
