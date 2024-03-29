@@ -56,8 +56,8 @@ class HospitalViewSet(viewsets.ModelViewSet):
         return super().perform_create(serializer)
     
 class PatientViewSet(viewsets.ModelViewSet):
-    # authentication_classes = [TokenAuthentication]
-    # permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
     queryset = Patient.objects.all()
@@ -67,13 +67,13 @@ class PatientViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
 
-        patientname = self.request.query_params.get("patientname", None)
+        contactnumber = self.request.query_params.get("contactnumber", None)
 
-        if patientname:
+        if contactnumber:
             
             qs = Patient.objects.filter()
-            for patient in patientname.split(self.patient_separator):
-                qs = qs.filter(patient_name=patient)
+            for patient in contactnumber.split(self.patient_separator):
+                qs = qs.filter(contact_number=patient)
 
                 return qs
 
@@ -102,13 +102,13 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
 
-        patientname = self.request.query_params.get("patientname", None)
+        contactnumber = self.request.query_params.get("contactnumber", None)
 
-        if patientname:
+        if contactnumber:
             
             qs = PatientVisit.objects.filter()
-            for patient in patientname.split(self.patient_separator):
-                qs = qs.filter(patient__patient_name=patient)
+            for patient in contactnumber.split(self.patient_separator):
+                qs = qs.filter(patient__contact_number=patient)
 
                 return qs
 
