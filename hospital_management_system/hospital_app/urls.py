@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include,re_path
-from catalog.views import PatientVisitViewSet,HospitalViewSet,PatientViewSet
+from hospital_app.views import PatientVisitViewSet,HospitalViewSet,PatientViewSet
 from rest_framework import routers
 from . import views
 

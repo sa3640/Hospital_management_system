@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     # My app
-    'catalog'
+    'hospital_app'
 ]
 
 MIDDLEWARE = [
