@@ -39,8 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    #third party app
     'rest_framework',
-    'catalog'
+    'rest_framework.authtoken',
+    # My app
+    'hospital_app'
 ]
 
 MIDDLEWARE = [
@@ -76,8 +79,9 @@ WSGI_APPLICATION = 'hospital_management_system.wsgi.application'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # Add this line
-    ],
+        'rest_framework.authentication.TokenAuthentication',
+          'rest_framework.authentication.SessionAuthentication',  # Add this line
+    ]
 }
 
 
