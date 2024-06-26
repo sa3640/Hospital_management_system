@@ -26,9 +26,7 @@ class HospitalNameSerializer(serializers.ModelSerializer):
                   'address')
 
 class PatientSerializer(serializers.ModelSerializer):
-    #id = serializers.UUIDField()
-    #hospital_details = serializers.PrimaryKeyRelatedField(source="hospital",many=False,queryset=Hospital.objects.all())
-    #hospital_name = HospitalSerializer(source='hospital',read_only=True)
+    
 
     class Meta:
         model = Patient
