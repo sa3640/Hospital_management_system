@@ -27,7 +27,7 @@ class Patient(models.Model):
         return str(self.patient_name)
     
 class PatientVisit(models.Model):
-    models.UUIDField(primary_key = True,default=uuid.uuid4,unique=True,editable=False)
+    id = models.UUIDField(primary_key = True,default=uuid.uuid4,unique=True,editable=False)
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT, related_name="patientname")
     hospital =models.ForeignKey(Hospital, on_delete=models.PROTECT, related_name="hospitalname")
     hospital_visits = models.DateField(blank=False)

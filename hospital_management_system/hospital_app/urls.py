@@ -1,18 +1,15 @@
 from django.contrib import admin
-from django.urls import path, include,re_path
-from hospital_app.views import PatientVisitViewSet,HospitalViewSet,PatientViewSet
-from rest_framework import routers
-from . import views
+from django.urls import path
+from .views import Login,Signup,Patient_Status_Patient_name,PatientVisitUpdate,PatientVisitStatus,PatientCreate,PatientInfo
 
-router = routers.DefaultRouter()
-router.register(r'hospitals',HospitalViewSet)
-router.register(r'patientvisit',PatientVisitViewSet)
-router.register(r'patient',PatientViewSet)
+
 urlpatterns = [
-    path('',include(router.urls)),
-    re_path('login', views.login),
-    re_path('signup', views.signup)
-    
-    
-]
+    path('patientstatus',Patient_Status_Patient_name.as_view(),name='Patient_status'),
+    path('login', Login.as_view(), name='login'),
+    path('signup',Signup.as_view(),name='signup'),
+    path('update-patient-visit/<str:contact_number>', PatientVisitUpdate.as_view(), name='update-patient-visit'),
+    path('patientvisit', PatientVisitStatus.as_view(), name='patient-visit-status'),
+    path('createpatient',PatientCreate.as_view(),name="patient_create"),
+    path('patient',PatientInfo.as_view(),name="get_patient")
+    ]
 
