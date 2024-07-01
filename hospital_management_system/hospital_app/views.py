@@ -15,10 +15,8 @@ from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
 from rest_framework.decorators import authentication_classes,permission_classes
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-
-
-
+from rest_framework.permissions import IsAuthenticated,IsAdminUser
+from rest_framework.views import APIView
 
 
 @api_view(['POST'])
@@ -44,20 +42,23 @@ def signup(request):
 
 
 
+
 class HospitalViewSet(viewsets.ModelViewSet):
+
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated,IsAdminUser]
+    
     
     queryset = Hospital.objects.all()
     serializer_class = HospitalSerializer
-    
-    @action(detail=True, methods=['post'])
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)
-    
+
+
 class PatientViewSet(viewsets.ModelViewSet):
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    
+    
 
 
     queryset = Patient.objects.all()
@@ -77,21 +78,20 @@ class PatientViewSet(viewsets.ModelViewSet):
 
                 return qs
 
-        return super().get_queryset()
-
-    @action(detail=True,methods=['post'])
-    def perform_create(self, serializer):
-        return super().perform_create(serializer)  
-    
+        return super().get_queryset()    
 
 # 
      
 
 
-    
 class PatientVisitViewSet(viewsets.ModelViewSet):
+
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
+    
+
+   
+
 
 
 
@@ -113,5 +113,14 @@ class PatientVisitViewSet(viewsets.ModelViewSet):
                 return qs
 
         return super().get_queryset()
+    
+class PatientsByHospitalView(APIView):
 
-
+    def get(self, request, hospital_name, *args, **kwargs):
+        try:
+            hospital = Hospital.objects.get(name=hospital_name)
+            patients = Patient.objects.filter(hospital=hospital)
+            serializer = PatientSerializer(patients, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Hospital.DoesNotExist:
+            return Response({"error": "Hospital not found"}, status=status.HTTP_404_NOT_FOUND)

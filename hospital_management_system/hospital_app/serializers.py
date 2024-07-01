@@ -15,7 +15,7 @@ class HospitalSerializer(serializers.ModelSerializer):
         fields = (
                   'name',
                   'address',
-                  'Staffs_num',
+                  'staffs_num',
                   'num_of_beds'
                   )
 
@@ -37,7 +37,8 @@ class PatientSerializer(serializers.ModelSerializer):
                  'contact_number',
                  'patient_address',
                  'department',
-                 'disease')    
+                 'disease',
+                 'hospital')    
 
 
 class PatientVisitSerializer(serializers.ModelSerializer):
