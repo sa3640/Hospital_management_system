@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include,re_path
-from hospital_app.views import PatientVisitViewSet,HospitalViewSet,PatientViewSet,PatientsByHospitalView
+from hospital_app.views import PatientVisitViewSet,HospitalViewSet,PatientViewSet,PatientsByHospitalView,DischargePatientView,GetPatientStatusByDateView
 from rest_framework import routers
 from . import views
 
@@ -13,6 +13,8 @@ urlpatterns = [
     re_path('login', views.login),
     re_path('signup', views.signup),
     path('hospitals/<str:hospital_name>/patients/', PatientsByHospitalView.as_view(), name='patients-by-hospital'),
+    path('discharge-patient/', DischargePatientView.as_view(), name='discharge-patient'),
+    path('patient-status/', GetPatientStatusByDateView.as_view(), name='patient-status-by-date'),
     
 ]
 

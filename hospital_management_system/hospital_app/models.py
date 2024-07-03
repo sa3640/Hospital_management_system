@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token as DefaultToken
 from django.core.validators import RegexValidator
+from datetime import datetime
 
 class Hospital(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
@@ -26,7 +27,7 @@ class Patient(models.Model):
                 code='invalid_phone_number'
             ),
         ],
-        unique=True
+        
     )
     department = models.CharField(max_length=200, default='')
     disease = models.CharField(max_length=200, default='')
@@ -44,12 +45,15 @@ class PatientVisit(models.Model):
     doctor_name = models.CharField(max_length=200, default='')
     patient_status = models.CharField(max_length=200, default='', blank=False)
     medicine = models.CharField(max_length=100, default='', blank=False)
+    timestamp = models.DateTimeField(default=datetime.now, editable=True)
 
     def __str__(self):
         return str(self.patient)
 
 
 
+    
+    
 
 
 
