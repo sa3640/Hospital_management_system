@@ -17,7 +17,7 @@ class Hospital(models.Model):
 
 class Patient(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
-    patient_name = models.CharField(max_length=200, default='')
+    patient_name = models.CharField(max_length=200, default='',blank=False, null=False)
     contact_number = models.CharField(
         max_length=10,
         validators=[
@@ -27,11 +27,11 @@ class Patient(models.Model):
                 code='invalid_phone_number'
             ),
         ],
-        
+        blank=False, null=False
     )
-    department = models.CharField(max_length=200, default='')
-    disease = models.CharField(max_length=200, default='')
-    patient_address = models.CharField(max_length=200, default='')
+    department = models.CharField(max_length=200, default='',blank=False, null=False)
+    disease = models.CharField(max_length=200, default='',blank=False, null=False)
+    patient_address = models.CharField(max_length=200, default='',blank=False, null=False)
     hospital = models.ForeignKey(Hospital, related_name='patients', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -41,9 +41,9 @@ class PatientVisit(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, unique=True, editable=False)
     patient = models.ForeignKey(Patient, on_delete=models.PROTECT, related_name="patientname")
     hospital = models.ForeignKey(Hospital, on_delete=models.PROTECT, related_name="hospitalname")
-    hospital_visits = models.DateField(blank=False)
-    doctor_name = models.CharField(max_length=200, default='')
-    patient_status = models.CharField(max_length=200, default='', blank=False)
+    hospital_visits = models.DateField(blank=False,)
+    doctor_name = models.CharField(max_length=200, default='',blank=False, null=False)
+    patient_status = models.CharField(max_length=200, default='', blank=False,null=False)
     medicine = models.CharField(max_length=100, default='', blank=False)
     timestamp = models.DateTimeField(default=datetime.now, editable=True)
 

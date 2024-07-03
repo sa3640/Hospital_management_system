@@ -122,6 +122,8 @@ class DischargePatientView(APIView):
             
             hospital = patient.hospital
 
+
+            
             
             latest_visit, created = PatientVisit.objects.get_or_create(
                 patient=patient,
