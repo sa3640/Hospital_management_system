@@ -36,7 +36,6 @@ class PatientSerializer(serializers.ModelSerializer):
 
 class PatientVisitSerializer(serializers.ModelSerializer):
     
-    
     class Meta:
         model = PatientVisit
     
