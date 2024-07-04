@@ -12,7 +12,7 @@ class UserSerializer(serializers.ModelSerializer):
 class HospitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Hospital
-        depth = 1
+        # depth = 1
         fields = (
                   'name',
                   'address',

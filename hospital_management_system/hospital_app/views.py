@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 
-
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import viewsets,status
 from rest_framework.decorators import api_view, action
@@ -108,6 +108,29 @@ class PatientsByHospitalView(APIView):
         except Hospital.DoesNotExist:
             return Response({"error": "Hospital not found"}, status=status.HTTP_404_NOT_FOUND)
  
+class DeleteHospital(APIView):
+
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated,IsAdminUser]
+
+    def delete(self,request,hospital_name,hospital_address,format=None):
+        hospital = get_object_or_404(Hospital,name=hospital_name,address=hospital_address)
+
+        if Patient.objects.filter(hospital=hospital).exists():
+            return Response(
+                {"details:cannot delete hospital as there are patient there"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        hospital.delete()
+        return Response({"details:Now can delete the hospital as there are no patient admitted"},
+                        status=status.HTTP_204_NO_CONTENT)
+            
+            
+            
+    
+    
+
+
 
 
 class DischargePatientView(APIView):
